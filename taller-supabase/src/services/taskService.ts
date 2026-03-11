@@ -29,8 +29,18 @@ export const taskService = {
       .order('created_at', { ascending: false }),
 
   // ---- CREATE ────────────────────────────
-  create: (tarea: TareaInsert) =>
-    supabase.from('tareas').insert(tarea).select().single(),
+  // En src/services/taskService.ts — actualizar el método create
+create: async (tarea: TareaInsert) => {
+  // Obtener el ID del usuario autenticado
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('No hay sesión activa')
+
+  return supabase
+    .from('tareas')
+    .insert({ ...tarea, user_id: user.id })  // ← Asociar al usuario
+    .select()
+    .single()
+},
 
   // ---- UPDATE ────────────────────────────
   update: (id: string, cambios: TareaUpdate) =>

@@ -17,7 +17,7 @@ export function useAuth() {
 
     // Escuchar cambios de sesión (login, logout, refresh de token)
     const { data: { subscription } } = authService.onAuthStateChange(
-      (_event, session) => setUser(session?.user ?? null)
+      async (_event, session) => setUser(session?.user ?? null)
     )
 
     return () => subscription.unsubscribe()
