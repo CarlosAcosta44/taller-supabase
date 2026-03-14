@@ -4,18 +4,21 @@ import { supabase }      from '../lib/supabaseClient'
 import { taskService }   from '../services/taskService'
 import type { Tarea, TareaInsert, TareaUpdate } from '../types/database'
 import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
+import { useAuthContext } from '../context/AuthContext'
 
 export function useRealtimeTasks() {
+  const { user } = useAuthContext()
   const [tareas,    setTareas]    = useState<Tarea[]>([])
   const [loading,   setLoading]   = useState(true)
   const [conectado, setConectado] = useState(false)
 
   const fetchTareas = useCallback(async () => {
+    if (!user) return
     setLoading(true)
-    const { data } = await taskService.getAll()  // ← usa el servicio
+    const { data } = await taskService.getAll(user.id)  // ← pasar user.id
     setTareas(data ?? [])
     setLoading(false)
-  }, [])
+  }, [user])
 
   useEffect(() => {
     fetchTareas()
@@ -24,7 +27,8 @@ export function useRealtimeTasks() {
       .channel('tareas-realtime')
       .on<Tarea>(
         'postgres_changes',
-        { event: '*', schema: 'public', table: 'tareas' },
+        { event: '*', schema: 'public', table: 'tareas',
+          filter: `user_id=eq.${user?.id}` },
         (payload: RealtimePostgresChangesPayload<Tarea>) => {
           // El estado se actualiza AQUI, no después del insert/update/delete
           if (payload.eventType === 'INSERT')

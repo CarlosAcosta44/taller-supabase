@@ -5,11 +5,12 @@ import type { TareaInsert, TareaUpdate } from '../types/database'
 export const taskService = {
 
   // ---- READ ────────────────────────────
-  getAll: () =>
-    supabase
-      .from('tareas')
-      .select('*')
-      .order('created_at', { ascending: false }),
+  getAll: (userId: string) =>
+  supabase
+    .from('tareas')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false }),
 
   getById: (id: string) =>
     supabase.from('tareas').select('*').eq('id', id).single(),

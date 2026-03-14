@@ -6,6 +6,8 @@ import { Home }          from './pages/Home'
 import { Login }         from './pages/Login'
 import { Register }      from './pages/Register'
 import { Dashboard }     from './pages/Dashboard'
+import { RecuperarPassword } from './pages/RecuperarPassword'
+import { NuevaPassword }     from './pages/NuevaPassword'
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           {/* Rutas públicas */}
           <Route path='/login'    element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/recuperar' element={<RecuperarPassword />} />
+          <Route path='/nueva-password' element={<NuevaPassword />} />
 
           {/* Rutas protegidas — requieren sesión activa */}
           <Route element={<PrivateRoute />}>

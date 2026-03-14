@@ -4,6 +4,8 @@ import { StatCard }       from '../components/Dashboard/StatCard'
 import { TaskChart }      from '../components/Dashboard/TaskChart'
 import { DonutChart }     from '../components/Dashboard/DonutChart'
 import { ActivityFeed }   from '../components/Dashboard/ActivityFeed'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { DashboardPDF }    from '../components/Dashboard/DashboardPDF'
 
 export function Dashboard() {
   const { stats, activity, distribution, recentFeed,
@@ -33,9 +35,18 @@ export function Dashboard() {
         </div>
         <button onClick={refresh}
           style={{ padding:'0.5rem 1rem', borderRadius:'8px', cursor:'pointer',
-            border:'1px solid #e2e8f0', background:'white' }}>
+            border:'1px solid #e2e8f0', background:'white', color:'black'}}>
           🔄 Actualizar
         </button>
+        <PDFDownloadLink
+          document={<DashboardPDF stats={stats} recentFeed={recentFeed} />}
+          fileName={`reporte-tareas-${new Date().toLocaleDateString('es-CO')}.pdf`}>
+          {({ loading }) => (
+            <button className='btn-ghost'>
+              {loading ? 'Generando...' : '📄 Exportar PDF'}
+            </button>
+          )}
+        </PDFDownloadLink>
       </div>
 
       {/* ── Fila de KPIs ── */}
@@ -80,7 +91,7 @@ export function Dashboard() {
       )}
 
       {/* ── Gráficas ── */}
-      <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr',
+      <div style={{ display:'grid', gridTemplateRows:'1fr 1fr',
         gap:'1.5rem', marginBottom:'2rem' }}>
         <TaskChart  data={activity} />
         <DonutChart data={distribution} />

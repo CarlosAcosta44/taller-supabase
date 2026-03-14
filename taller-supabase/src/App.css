@@ -1,42 +1,390 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* ============================================================
+   App.css — Taller Supabase + React + TypeScript
+   Tema: Clean & Modern — Fondo claro, tipografía nítida
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap');
+
+/* ── Variables ─────────────────────────────────────────────── */
+:root {
+  --bg:          #f0f4ff;
+  --surface:     #ffffff;
+  --surface-2:   #f8faff;
+  --border:      #e4eaf6;
+  --primary:     #4f6ef7;
+  --primary-h:   #3a57e0;
+  --success:     #10b981;
+  --warning:     #f59e0b;
+  --danger:      #ef4444;
+  --text:        #111827;
+  --text-2:      #4b5563;
+  --text-3:      #9ca3af;
+  --radius:      12px;
+  --radius-lg:   18px;
+  --shadow:      0 2px 12px rgba(79,110,247,0.08);
+  --shadow-lg:   0 8px 32px rgba(79,110,247,0.14);
+  --transition:  0.2s ease;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* ── Reset & Base ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  justify-content: center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1, h2, h3, h4 {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+a:hover { color: var(--primary-h); text-decoration: underline; }
+
+/* ── Inputs & Textarea ──────────────────────────────────────── */
+input, textarea, select {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79,110,247,0.12);
+}
+input::placeholder, textarea::placeholder { color: var(--text-3); }
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
+/* ── Buttons ────────────────────────────────────────────────── */
+button {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+button[type='submit'],
+button.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(79,110,247,0.3);
+}
+button[type='submit']:hover,
+button.btn-primary:hover {
+  background: var(--primary-h);
+  box-shadow: 0 4px 14px rgba(79,110,247,0.4);
+  transform: translateY(-1px);
+}
+button[type='submit']:disabled,
+button.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+button.btn-ghost {
+  background: var(--surface);
+  color: var(--text-2);
+  border: 1.5px solid var(--border);
+}
+button.btn-ghost:hover {
+  background: var(--surface-2);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+button.btn-danger {
+  background: none;
+  color: var(--danger);
+  border: none;
+  padding: 0.4rem 0.7rem;
+}
+button.btn-danger:hover {
+  background: #fff1f1;
+  border-radius: var(--radius);
+}
+
+/* ── Card / Surface ─────────────────────────────────────────── */
 .card {
-  padding: 2em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
 }
 
-.read-the-docs {
-  color: #888;
+/* ── Nav ────────────────────────────────────────────────────── */
+nav {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow) !important;
+  padding: 0.75rem 1.25rem !important;
+  margin-bottom: 1.75rem !important;
+  width: 100%;
 }
+
+nav a {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-2);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  transition: all var(--transition);
+}
+nav a:hover {
+  background: var(--bg);
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* ── Login / Register pages ─────────────────────────────────── */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.auth-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-lg);
+  animation: fadeUp 0.4s ease;
+}
+
+.auth-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+.auth-card p.subtitle {
+  color: var(--text-3);
+  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+.auth-card .error-msg {
+  background: #fff1f1;
+  color: var(--danger);
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Task Form ──────────────────────────────────────────────── */
+.content-task {
+  max-width: 1200px;
+  margin: 50px 0;
+}
+
+
+
+/* ── Task Form ──────────────────────────────────────────────── */
+.task-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.task-form h2 {
+  font-size: 1rem;
+  color: var(--text-2);
+  margin-bottom: 0.9rem;
+  font-weight: 600;
+}
+.task-form-row {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 0.75rem;
+  align-items: start;
+}
+@media (max-width: 600px) {
+  .task-form-row { grid-template-columns: 1fr; }
+}
+
+/* ── Task Item ──────────────────────────────────────────────── */
+.task-item {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+}
+.task-item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px rgba(79,110,247,0.1);
+  transform: translateY(-1px);
+}
+.task-item.completed {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  opacity: 0.85;
+}
+
+.task-item input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  accent-color: var(--success);
+  cursor: pointer;
+  margin: 0;
+  border-radius: 4px;
+}
+
+.task-item .task-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color var(--transition);
+}
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: var(--text-3);
+}
+.task-item .task-desc {
+  font-size: 0.82rem;
+  color: var(--text-3);
+  margin-top: 0.1rem;
+}
+
+/* ── Realtime Indicator ─────────────────────────────────────── */
+.rt-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.rt-indicator.connected    { background: #dcfce7; color: #166534; }
+.rt-indicator.disconnected { background: #fee2e2; color: #991b1b; }
+.rt-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+.rt-indicator.connected    .rt-dot { background: #22c55e; animation: pulse 1.5s infinite; }
+.rt-indicator.disconnected .rt-dot { background: #ef4444; }
+
+/* ── Dashboard StatCard ─────────────────────────────────────── */
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+/* ── Loading state ──────────────────────────────────────────── */
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--text-3);
+  font-family: 'Sora', sans-serif;
+}
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Salir button override ──────────────────────────────────── */
+nav button {
+  background: #fff1f1 !important;
+  color: var(--danger) !important;
+  border: 1px solid #fecaca !important;
+  font-size: 0.82rem !important;
+  padding: 0.35rem 0.85rem !important;
+  box-shadow: none !important;
+}
+nav button:hover {
+  background: var(--danger) !important;
+  color: white !important;
+  transform: none !important;
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* Page entrance animation */
+#root > * { animation: fadeUp 0.35s ease; }
+

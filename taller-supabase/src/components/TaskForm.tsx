@@ -6,7 +6,7 @@ interface Props {
 }
 
 export function TaskForm({ onCrear }: Props) {
-  const [titulo,       setTitulo]      = useState('')
+  const [titulo,      setTitulo]     = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [submitting,  setSubmitting]  = useState(false)
 
@@ -22,15 +22,17 @@ export function TaskForm({ onCrear }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom:'2rem' }}>
+    <form className='task-form' onSubmit={handleSubmit}>
       <h2>Nueva Tarea</h2>
-      <input type='text' placeholder='Titulo *' value={titulo}
-        onChange={e => setTitulo(e.target.value)} required />
-      <textarea placeholder='Descripción (opcional)'
-        value={descripcion} onChange={e => setDescripcion(e.target.value)} />
-      <button type='submit' disabled={submitting || !titulo.trim()}>
-        {submitting ? 'Guardando...' : '+ Agregar tarea'}
-      </button>
+      <div className='task-form-row'>
+        <input type='text' placeholder='Titulo *' value={titulo}
+          onChange={e => setTitulo(e.target.value)} required />
+        <textarea placeholder='Descripción (opcional)'
+          value={descripcion} onChange={e => setDescripcion(e.target.value)} />
+        <button type='submit' disabled={submitting || !titulo.trim()}>
+          {submitting ? 'Guardando...' : '+ Agregar tarea'}
+        </button>
+      </div>
     </form>
   )
 }

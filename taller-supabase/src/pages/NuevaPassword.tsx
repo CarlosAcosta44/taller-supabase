@@ -1,57 +1,50 @@
-// src/pages/Register.tsx
+// src/pages/NuevaPassword.tsx
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useAuthContext } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '../lib/supabaseClient'
 
-export function Register() {
-  const { signUp }  = useAuthContext()
-  const navigate    = useNavigate()
-  const [email,     setEmail]     = useState('')
+export function NuevaPassword() {
+  const navigate            = useNavigate()
   const [password,  setPassword]  = useState('')
   const [confirmar, setConfirmar] = useState('')
-  const [error,     setError]     = useState('')
   const [loading,   setLoading]   = useState(false)
+  const [error,     setError]     = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-
     if (password !== confirmar)
       return setError('Las contraseñas no coinciden')
     if (password.length < 6)
-      return setError('La contraseña debe tener al menos 6 caracteres')
+      return setError('Mínimo 6 caracteres')
 
     setLoading(true)
     try {
-      await signUp(email, password)
-      navigate('/')
+      const { error } = await supabase.auth.updateUser({ password })
+      if (error) throw error
+      navigate('/login')
     } catch (err: any) {
-      setError(err.message || 'Error al registrarse')
+      setError(err.message || 'Error al actualizar la contraseña')
     } finally { setLoading(false) }
   }
 
   return (
     <div className='auth-wrapper'>
       <div className='auth-card'>
-        <h1>Crear Cuenta</h1>
-        <p className='subtitle'>Regístrate para empezar a gestionar tus tareas</p>
+        <h1>Nueva Contraseña</h1>
+        <p className='subtitle'>Ingresa tu nueva contraseña</p>
         {error && <div className='error-msg'>{error}</div>}
         <form onSubmit={handleSubmit}>
-          <input type='email' placeholder='Email' value={email}
-            onChange={e => setEmail(e.target.value)} required />
-          <input type='password' placeholder='Contraseña (mín. 6 caracteres)'
+          <input type='password' placeholder='Nueva contraseña'
             value={password}
             onChange={e => setPassword(e.target.value)} required />
           <input type='password' placeholder='Confirmar contraseña'
             value={confirmar}
             onChange={e => setConfirmar(e.target.value)} required />
           <button type='submit' disabled={loading} style={{ width:'100%' }}>
-            {loading ? 'Creando cuenta...' : 'Crear cuenta'}
+            {loading ? 'Guardando...' : 'Guardar contraseña'}
           </button>
         </form>
-        <p style={{ marginTop:'1rem', fontSize:'0.9rem', color:'#6b7280' }}>
-          ¿Ya tienes cuenta? <Link to='/login'>Inicia sesión</Link>
-        </p>
       </div>
     </div>
   )
