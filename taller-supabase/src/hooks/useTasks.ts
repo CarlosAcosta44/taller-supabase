@@ -2,16 +2,18 @@
 import { useState, useEffect, useCallback } from 'react'
 import { taskService } from '../services/taskService'   // ← importa el servicio
 import type { Tarea, TareaInsert, TareaUpdate } from '../types/database'
+import { useAuthContext } from '../context/AuthContext'
 
 export function useTasks() {
   const [tareas,   setTareas]   = useState<Tarea[]>([])
   const [loading, setLoading] = useState(true)
   const [error,   setError]   = useState<string | null>(null)
+  const { user } = useAuthContext()
 
   // READ — carga inicial
   const fetchTareas = useCallback(async () => {
     setLoading(true); setError(null)
-    const { data, error } = await taskService.getAll()
+    const { data, error } = await taskService.getAll(user?.id ?? '')
     if (error) setError(error.message)
     else setTareas(data ?? [])
     setLoading(false)
